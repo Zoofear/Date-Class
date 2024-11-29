@@ -2,4 +2,19 @@
 //
 
 #include <iostream>
+#include "Date Class.h"
 
+using namespace std;
+
+Date::Date()
+{
+	setDate(1, 1, 1930);
+
+	leapYearUpdater();
+}
+
+
+void Date::dateContinuityPlus()
+{
+
+}
