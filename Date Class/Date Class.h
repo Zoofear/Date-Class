@@ -8,6 +8,7 @@ using namespace std;
 //Coonstant for the number of months in a year
 const int NumMonths = 12;
 
+class Date;
 ostream& operator<<(ostream&, Date&);
 istream& operator>>(istream&, Date&);
 
@@ -25,7 +26,7 @@ public:
 	//Takes the int x (1-12) for months, y(1-31) for days, z for years and stores them
 	void setDate(int x, int y, int z)
 	{
-		monthnumb = x;
+		monthnumb = x--;
 		day = y;
 		year = z;
 	}
@@ -59,7 +60,7 @@ public:
 	//This function will update the array on the selected month using the int x and change the days of that month using the int y
 	void setMonthDays(int x, int y)
 	{
-		days[x] = y;
+		daysinmonth[x] = y;
 	}
 	//This function will check the month, and the amount of days in the month
 	//It will check to see if the current day is the 31st/30th
@@ -77,30 +78,13 @@ public:
 	//Runs the function leapYear()
 	//If true sets updates the days[1] value (febuary's days) to 29
 	//If false updates the days[1] value (febuary's days) to 28
-	void leapYearUpdater()
-	{
-		bool check = leapYear();
-		
-		if (check == true)
-		{
-			days[1] = 29;
-		}
-		else if (check == false)
-		{
-			days[1] = 28;
-		}
-	}
+	void leapYearUpdater();
 
 	//Check if year is divided by 400 without a decimal
 	//If year isn't divisible by 400, see if it is divisible by 4 without a decimal
 	//If divisible by 400 or 4 without a decimal, it is a leap year
 	bool leapYear();
 	//If leap year, return true, if not a leap year return false
-
-	//Checks the flags for the current month and determines whether it is a 31 day, 27/28 day month, and a 30 day month
-	int daysInMonth();
-	//returns the amount of days in the current month
-
 	//Takes the day, month, and year and outputs it in this format: 12/25/2021
 	void printNumber();
 
@@ -114,16 +98,18 @@ public:
 	{
 		for (int x = 0; x < 12; x++)
 		{
-			cout << month[x] << ":" << days[x];
+			cout << month[x] << ":" << daysinmonth[x];
 		}
+		cout << endl;
 	}
 
 	//Operator Overloads
 
 	Date operator++();
 	Date operator++(int);
-	Date operator --();
-	Date operator --(int);
+	Date operator--();
+	Date operator--(int);
+	int operator -(const Date&) const;
 	friend ostream& operator <<(ostream&, Date&);
 	friend istream& operator >>(istream&, Date&);
 
@@ -136,7 +122,7 @@ private:
 
 	string month[NumMonths] = { "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "November", "December" };
 
-	int days[NumMonths] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	int daysinmonth[NumMonths] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	int year;
 
