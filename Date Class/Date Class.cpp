@@ -107,11 +107,13 @@ void Date::printDMY()
 
 Date Date::operator++()
 {
-	if (day == daysinmonth[monthnumb])
+	if (day == daysinmonth[monthnumb - 1])
 	{
 		if (monthnumb == 12)
 		{
-			setDate(1, 1, year++);
+			year++;
+			setDate(1, 1, year);
+			leapYearUpdater();
 		}
 		else
 		{
@@ -128,13 +130,15 @@ Date Date::operator++()
 
 Date Date::operator++(int)
 {
-	Date temp(monthnumb + 1, day, year);
+	Date temp(monthnumb, day, year);
 
-	if (day == daysinmonth[monthnumb])
+	if (day == daysinmonth[monthnumb - 1])
 	{
 		if (monthnumb == 12)
 		{
-			setDate(1, 1, year++);
+			year++;
+			setDate(1, 1, year);
+			leapYearUpdater();
 		}
 		else
 		{
@@ -151,20 +155,33 @@ Date Date::operator++(int)
 
 Date Date::operator--()
 {
-	if (day == 1)
+	if (year >= 0)
 	{
-		if (monthnumb == 1)
+		if (day == 1)
 		{
-			setDate(12, daysinmonth[monthnumb], year--);
+			if (monthnumb == 1)
+			{
+				year--;
+				setDate(12, daysinmonth[monthnumb - 1], year);
+				leapYearUpdater();
+			}
+			else
+			{
+				monthnumb--;
+			}
+
 		}
 		else
 		{
-			monthnumb--;
+			day--;
+
 		}
 	}
 	else
 	{
-		day--;
+		cout << "your year cannot go negative" << endl;
+
+		exit(2);
 	}
 	
 	return *this;
@@ -175,22 +192,35 @@ Date Date::operator--(int)
 	
 	Date temp(monthnumb, day, year);
 	
-	if (day == 1)
+	if (year >= 0)
 	{
-		if (monthnumb == 1)
+		if (day == 1)
 		{
-			setDate(12, daysinmonth[monthnumb], year--);
+			if (monthnumb == 1)
+			{
+				year--;
+				setDate(12, daysinmonth[monthnumb - 1], year);
+				leapYearUpdater();
+			}
+			else
+			{
+				monthnumb--;
+			}
+
 		}
 		else
 		{
-			monthnumb--;
+			day--;
+
 		}
 	}
 	else
 	{
-		day--;
+		cout << "your year cannot go negative" << endl;
+
+		exit(2);
 	}
-	
+
 	return temp;
 }
 
@@ -204,27 +234,42 @@ int Date::operator -(Date& x)
 
 	while (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
 	{
-		if (temp.day == 1)
+		if (temp.year >= 0)
 		{
-			if (temp.monthnumb == 1)
+			if (temp.day == 1)
 			{
-				temp.setDate(12, temp.daysinmonth[monthnumb], temp.year - 1);
+				if (temp.monthnumb == 1)
+				{
+					temp.year--;
+					temp.setDate(12, temp.daysinmonth[monthnumb - 1], temp.year);
+					temp.leapYearUpdater();
+
+					cout << temp.daysinmonth[monthnumb - 1] << " " << temp.year << endl;
+				}
+				else
+				{
+					temp.monthnumb--;
+				}
+
 			}
 			else
 			{
-				temp.monthnumb--;
+				temp.day--;
+
+				cout << count << endl;
+
 			}
+
+			count++;
+			
 		}
 		else
 		{
-			temp.day--;
+			cout << "your year cannot go negative" << endl;
 
-			cout << count << endl;
+			exit(2);
 		}
-
-		count++;
 	}
-
 	cout << temp.day << " " << temp.monthnumb << " " << temp.year << endl;
 	
 	return count;

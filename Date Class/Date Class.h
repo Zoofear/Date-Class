@@ -117,7 +117,7 @@ public:
 	Date operator--(int);
 
 	//increments downwards and counts how many times it does that to see how many days between the dates
-	int operator -(Date&);
+	int operator -(Date& x);
 
 	//prints the object
 	friend ostream& operator <<(ostream&, Date&);

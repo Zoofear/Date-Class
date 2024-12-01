@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 
-Date Test;
+Date Test(5, 3, 1930);
 
 Date Test2(12, 2, 14);
 
@@ -35,6 +35,25 @@ Test2++;
 Test2.printNumber();
 Test2--;
 Test2.printNumber();
+Test2--;
+Test2.printNumber();
+Test2--;
+Test2.printNumber();
+Test2--;
+Test2.printNumber();
+Test2--;
+Test2.printNumber();
+Test2--;
+Test2.printNumber();
+Test2--;
+Test2.printNumber();
+Test2++;
+Test2.printNumber();
+Test2++;
+Test2.printNumber();
+Test2++;
+Test2.printNumber();
+Test2++;
 
 int x = Test - Test2;
 
