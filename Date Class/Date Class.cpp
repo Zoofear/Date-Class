@@ -23,48 +23,9 @@ Date::Date(int x, int y, int z)
 	leapYearUpdater();
 }
 
-void Date::dateContinuityPlus()
-{
-	if (day == daysinmonth[monthnumb])
-	{
-		if (monthnumb = 11)
-		{
-			setDate(1, 1, year++);
-		}
-		else
-		{
-			monthnumb++;
-		}
-	}
-	else
-	{
-		day++;
-	}
-}
-
-void Date::dateContinuityMinus()
-{
-	if (day == 1)
-	{
-		if (monthnumb = 0)
-		{
-			setDate(12, daysinmonth[monthnumb], year--);
-		}
-		else
-		{
-			monthnumb--;
-		}
-	}
-	else
-	{
-		day--;
-	}
-	
-}
-
 void Date::variableChecker()
 {
-	if (monthnumb > 0 && monthnumb < 13)
+	if (monthnumb >= 1 && monthnumb <= 12 )
 	{
 		if (day > 0 && day <= daysinmonth[monthnumb])
 		{
@@ -72,6 +33,10 @@ void Date::variableChecker()
 			{
 				cout << "Your year must be 0 or greater" << endl;
 				setDate(monthnumb, day, 0);
+			}
+			else
+			{
+				return;
 			}
 		}
 		else
@@ -83,7 +48,7 @@ void Date::variableChecker()
 	else
 	{
 		cout << "Your month integer must be 1-12" << endl;
-		setDate(0, 1, 0);
+		setDate(1, 1, 0);
 	}
 }
 
@@ -103,15 +68,15 @@ void Date::leapYearUpdater()
 
 bool Date::leapYear()
 {
-	double x = year / 400;
-	if (x == int(x))
+	double x = year / static_cast<double>(400);
+	if (x == floor(x))
 	{
 		return true;
 	}
 	else
 	{
-		x = year / 4;
-		if (x == int(x))
+		x = year / static_cast<double>(4);
+		if (x == floor(x))
 		{
 			return true;
 		}
@@ -124,24 +89,27 @@ bool Date::leapYear()
 
 void Date::printNumber()
 {
-	cout << monthnumb + 1 << "/" << right << setw(2) << setfill('0') << day << "/" << setw(4) << year << setfill(' ') << left << endl;
+	cout << monthnumb << "/" << right << setw(2) << setfill('0') << day << "/" << setw(4) << year << setfill(' ') << left << endl;
 }
 
 void Date::printMDY()
 {
-	cout << month[monthnumb] << " " << right << setw(2) << setfill('0') << day << setfill(' ') << ", " << setw(4) << setfill('0') << year << left << endl;
+	monthnumb = 12;
+	monthname = month[monthnumb - 1];
+	cout << monthname << " " << right << setw(2) << setfill('0') << day << setfill(' ') << ", " << setw(4) << setfill('0') << year << left << endl;
 }
 
 void Date::printDMY()
 {
-	cout << right << setw(2) << setfill('0') << day << left << setfill(' ') << " " << month[monthnumb] << " " << right << setw(4) << setfill('0') << year << left << endl;
+	monthname = month[monthnumb - 1];
+	cout << right << setw(2) << setfill('0') << day << left << setfill(' ') << " " << monthname << " " << right << setw(4) << setfill('0') << year << left << endl;
 }
 
 Date Date::operator++()
 {
 	if (day == daysinmonth[monthnumb])
 	{
-		if (monthnumb = 11)
+		if (monthnumb == 12)
 		{
 			setDate(1, 1, year++);
 		}
@@ -164,7 +132,7 @@ Date Date::operator++(int)
 
 	if (day == daysinmonth[monthnumb])
 	{
-		if (monthnumb = 11)
+		if (monthnumb == 12)
 		{
 			setDate(1, 1, year++);
 		}
@@ -185,7 +153,7 @@ Date Date::operator--()
 {
 	if (day == 1)
 	{
-		if (monthnumb = 0)
+		if (monthnumb == 1)
 		{
 			setDate(12, daysinmonth[monthnumb], year--);
 		}
@@ -205,11 +173,11 @@ Date Date::operator--()
 Date Date::operator--(int)
 {
 	
-	Date temp(monthnumb + 1, day, year);
+	Date temp(monthnumb, day, year);
 	
 	if (day == 1)
 	{
-		if (monthnumb = 0)
+		if (monthnumb == 1)
 		{
 			setDate(12, daysinmonth[monthnumb], year--);
 		}
@@ -226,35 +194,52 @@ Date Date::operator--(int)
 	return temp;
 }
 
-int Date::operator -(const Date&) const
+int Date::operator -(Date& x)
 {
-	Date temp;
+	Date temp(monthnumb, day, year);
 	
-	int x = 0;
-	int tempday = temp.returnDay();
-	int tempmonth = temp.returnMonthNum();
-	int tempyear = temp.returnYear();
+	int count = 0;
 
-	while (tempday != day && tempmonth != monthnumb && tempyear != year)
+	cout << temp.day << " " << temp.monthnumb << " " << temp.year << endl;
+
+	while (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
 	{
-		--temp;
-		x++;
+		if (temp.day == 1)
+		{
+			if (temp.monthnumb == 1)
+			{
+				temp.setDate(12, temp.daysinmonth[monthnumb], temp.year - 1);
+			}
+			else
+			{
+				temp.monthnumb--;
+			}
+		}
+		else
+		{
+			temp.day--;
+
+			cout << count << endl;
+		}
+
+		count++;
 	}
 
-	return x;
+	cout << temp.day << " " << temp.monthnumb << " " << temp.year << endl;
+	
+	return count;
 }
 
 ostream& operator<<(ostream& stream, Date& dates)
 {
-	int x = dates.returnMonthNum();
-	stream << dates.month[x]  << " " << right << setw(2) << setfill('0') << dates.day << setfill(' ') << ", " << setw(4) << setfill('0') << dates.year << left << endl;
+	dates.monthname = dates.month[dates.monthnumb - 1];
+	stream << dates.monthname << " " << right << setw(2) << setfill('0') << dates.day << setfill(' ') << ", " << setw(4) << setfill('0') << dates.year << left << endl;
 	return stream;
 }
  
 istream& operator >>(istream& stream, Date& dates)
 {
 	stream >> dates.monthnumb >> dates.day >> dates.year;
-	dates.monthnumb = dates.monthnumb - 1;
 	dates.variableChecker();
 	return stream;
 }
