@@ -55,8 +55,6 @@ Test2++;
 Test2.printNumber();
 Test2++;
 
-cin >> Test3;
-
 int x = Test - Test2;
 
 cout << x << endl;
