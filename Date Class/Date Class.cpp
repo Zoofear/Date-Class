@@ -145,7 +145,7 @@ int Date::dateValueCalc()
 
 void Date::printNumber()
 {
-	cout << right << setw(2) << setfill('0') << monthnumb << "/" << day << "/" << setw(4) << year << setfill(' ') << left << endl;
+	cout << right << setw(2) << setfill('0') << monthnumb << "/" << setw(2) << day << "/" << setw(4) << year << setfill(' ') << left << endl;
 }
 
 void Date::printMDY()

@@ -106,6 +106,10 @@ int main()
 
 	cout << Test2 << endl;
 
-	
+	//Use cin to input and then cout to output
+
+	cin >> Test;
+
+	cout << Test << endl;
 
 }
