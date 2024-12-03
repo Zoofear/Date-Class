@@ -11,7 +11,8 @@ Date::Date()
 {
 	setDate(1, 1, 1930);
 
-	leapYearUpdater();
+	variableChecker();
+	
 }
 
 Date::Date(int x, int y, int z)
@@ -20,19 +21,23 @@ Date::Date(int x, int y, int z)
 
 	variableChecker();
 
-	leapYearUpdater();
 }
 
 void Date::variableChecker()
 {
+	
+
 	if (monthnumb >= 1 && monthnumb <= 12 )
 	{
-		if (day > 0 && day <= daysinmonth[monthnumb])
+		
+		monthdays = returnDaysInMonth();
+
+		if (day > 0 && day <= monthdays )
 		{
 			if (year < 0)
 			{
 				cout << "Your year must be 0 or greater" << endl;
-				setDate(monthnumb, day, 0);
+				setDate(1, 1, 1930);
 			}
 			else
 			{
@@ -41,28 +46,34 @@ void Date::variableChecker()
 		}
 		else
 		{
-			cout << "Your day integer must be greater than 0 and less then the amount of days in that month" << endl;
-			setDate(monthnumb, 1, 0);
+			cout << "Your day integer must be greater than 0 and less then or equal to the amount of days in that month" << endl;
+			setDate(1, 1, 1930);
 		}
 	}
 	else
 	{
 		cout << "Your month integer must be 1-12" << endl;
-		setDate(1, 1, 0);
+		setDate(1, 1, 1930);
 	}
 }
 
-void Date::leapYearUpdater()
+int Date::returnDaysInMonth()
 {
-	bool check = leapYear();
-
-	if (check == true)
+	if (monthnumb == 2)
 	{
-		setMonthDays(1, 29);
+		bool check = leapYear();
+		if (check == true)
+		{
+			return 29;
+		}
+		else if (check == false)
+		{
+			return 28;
+		}
 	}
-	else if (check == false)
+	else
 	{
-		setMonthDays(1, 28);
+		return daysinmonth[monthnumb];
 	}
 }
 
@@ -94,7 +105,6 @@ void Date::printNumber()
 
 void Date::printMDY()
 {
-	monthnumb = 12;
 	monthname = month[monthnumb - 1];
 	cout << monthname << " " << right << setw(2) << setfill('0') << day << setfill(' ') << ", " << setw(4) << setfill('0') << year << left << endl;
 }
@@ -107,17 +117,20 @@ void Date::printDMY()
 
 Date Date::operator++()
 {
-	if (day == daysinmonth[monthnumb - 1])
+	
+	monthdays = returnDaysInMonth();
+	if (day == monthdays)
 	{
 		if (monthnumb == 12)
 		{
 			year++;
 			setDate(1, 1, year);
-			leapYearUpdater();
+			
 		}
 		else
 		{
 			monthnumb++;
+			setDate(monthnumb, 1, year);
 		}
 	}
 		else
@@ -132,17 +145,19 @@ Date Date::operator++(int)
 {
 	Date temp(monthnumb, day, year);
 
-	if (day == daysinmonth[monthnumb - 1])
+	monthdays == returnDaysInMonth();
+	if (day == monthdays)
 	{
 		if (monthnumb == 12)
 		{
 			year++;
 			setDate(1, 1, year);
-			leapYearUpdater();
+			
 		}
 		else
 		{
 			monthnumb++;
+			setDate(monthnumb, 1, year);
 		}
 	}
 	else
@@ -162,12 +177,14 @@ Date Date::operator--()
 			if (monthnumb == 1)
 			{
 				year--;
-				setDate(12, daysinmonth[monthnumb - 1], year);
-				leapYearUpdater();
+				setDate(12, daysinmonth[12], year);
+				
 			}
 			else
 			{
 				monthnumb--;
+				monthdays = returnDaysInMonth();
+				setDate(monthnumb, monthdays, year);
 			}
 
 		}
@@ -199,12 +216,14 @@ Date Date::operator--(int)
 			if (monthnumb == 1)
 			{
 				year--;
-				setDate(12, daysinmonth[monthnumb - 1], year);
-				leapYearUpdater();
+				setDate(12, daysinmonth[12], year);
+				
 			}
 			else
 			{
 				monthnumb--;
+				monthdays = returnDaysInMonth();
+				setDate(monthnumb, monthdays, year);
 			}
 
 		}
@@ -232,7 +251,7 @@ int Date::operator -(Date& x)
 
 	cout << temp.day << " " << temp.monthnumb << " " << temp.year << endl;
 
-	while (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
+	while (temp.day != x.day || temp.monthnumb != x.monthnumb || temp.year != x.year)
 	{
 		if (temp.year >= 0)
 		{
@@ -241,10 +260,10 @@ int Date::operator -(Date& x)
 				if (temp.monthnumb == 1)
 				{
 					temp.year--;
-					temp.setDate(12, temp.daysinmonth[monthnumb - 1], temp.year);
-					temp.leapYearUpdater();
+					temp.setDate(12, temp.daysinmonth[12], temp.year);
+					
 
-					cout << temp.daysinmonth[monthnumb - 1] << " " << temp.year << endl;
+					cout << temp.daysinmonth[12] << " " << temp.year << endl;
 				}
 				else
 				{
