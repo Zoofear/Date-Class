@@ -26,10 +26,14 @@ public:
 	//Takes the int x (1-12) for months, y(1-31) for days, z for years and stores them
 	void setDate(int x, int y, int z)
 	{
-		monthname = month[x - 1];
 		monthnumb = x;
 		day = y;
 		year = z;
+
+		variableChecker();
+
+		monthname = monthnumb - 1;
+
 	}
 	
 	//Returns the day variable as an int

@@ -30,6 +30,24 @@ int main()
 
 	cout << endl;
 
+	//Use setDate( to set the date to 13/45/2018, 4/31/2000, 2/29/2000 to make sure the date isn't accepted
+
+	cout << "error test 1" << endl;
+
+	Test.setDate(13, 45, 2018);
+	
+	cout << "error test 2" << endl;
+
+	Test.setDate(4, 31, 2000);
+
+	cout << "error test 3" << endl;
+
+	Test.setDate(2, 29, 2000);
+
+	cout << endl;
+
+	
+
 	
 
 }

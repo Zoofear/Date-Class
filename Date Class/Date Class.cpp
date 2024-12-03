@@ -10,8 +10,6 @@ using namespace std;
 Date::Date()
 {
 	setDate(1, 1, 1930);
-
-	variableChecker();
 	
 }
 
@@ -19,15 +17,13 @@ Date::Date(int x, int y, int z)
 {
 	setDate(x, y, z);
 
-	variableChecker();
-
 }
 
 void Date::variableChecker()
 {
 	
 
-	if (monthnumb >= 1 && monthnumb <= 12 )
+	if (monthnumb > 0 && monthnumb < 13 )
 	{
 		
 		monthdays = returnDaysInMonth();
@@ -149,7 +145,7 @@ Date Date::operator++(int)
 	Date temp(monthnumb, day, year);
 
 	//Need to make sure it can go between feb - march 
-	monthdays == returnDaysInMonth();
+	monthdays = returnDaysInMonth();
 	if (day == monthdays)
 	{
 		if (monthnumb == 12)
