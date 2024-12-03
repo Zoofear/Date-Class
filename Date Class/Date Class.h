@@ -108,18 +108,24 @@ public:
 
 private:
 
+	//The current day
 	int day;
 
+	//The current month, used for iterating and outputting
 	int monthnumb;
-
+	
+	//A place to store how many days in the month
 	int monthdays;
 
+	//A place to store the name of the month
 	string monthname;
 
 	string month[NumMonths] = { "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
+	//Extra 0 value so that the number of days in the month lines up with 1-12
 	int daysinmonth[NumMonths + 1] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
+	//The current year
 	int year;
 
 };

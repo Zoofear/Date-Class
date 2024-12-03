@@ -61,6 +61,7 @@ int Date::returnDaysInMonth()
 {
 	if (monthnumb == 2)
 	{
+		//This is in here so it only needs to check for a leap year when it is relevant
 		bool check = leapYear();
 		if (check == true)
 		{
@@ -79,15 +80,17 @@ int Date::returnDaysInMonth()
 
 bool Date::leapYear()
 {
-	double x = year / static_cast<double>(400);
-	if (x == floor(x))
+	//Need to static_cast to make sure the output doesnt get rounded
+	double x = year / static_cast<double>(400);	//Gregorian calendar considers century years non divisible by 400 to not be leap years
+	if (x == floor(x))	//Floor used to make sure that it doesnt round up and cause a leap year to be false when it is not
 	{
 		return true;
 	}
 	else
 	{
+		//Need to static_cast to make sure the output doesnt get rounded
 		x = year / static_cast<double>(4);
-		if (x == floor(x))
+		if (x == floor(x))	//Floor used to make sure that it doesnt round up and cause a leap year to be false when it is not
 		{
 			return true;
 		}
@@ -105,19 +108,19 @@ void Date::printNumber()
 
 void Date::printMDY()
 {
-	monthname = month[monthnumb - 1];
+	monthname = month[monthnumb - 1];	//This is used because the array starts from 0 instead of one, so i need to index it all back by a single value to output the correct name
 	cout << monthname << " " << right << setw(2) << setfill('0') << day << setfill(' ') << ", " << setw(4) << setfill('0') << year << left << endl;
 }
 
 void Date::printDMY()
 {
-	monthname = month[monthnumb - 1];
+	monthname = month[monthnumb - 1];	//This is used because the array starts from 0 instead of one, so i need to index it all back by a single value to output the correct name
 	cout << right << setw(2) << setfill('0') << day << left << setfill(' ') << " " << monthname << " " << right << setw(4) << setfill('0') << year << left << endl;
 }
 
 Date Date::operator++()
 {
-	
+	//Need to make sure it can go between feb - march 
 	monthdays = returnDaysInMonth();
 	if (day == monthdays)
 	{
@@ -145,6 +148,7 @@ Date Date::operator++(int)
 {
 	Date temp(monthnumb, day, year);
 
+	//Need to make sure it can go between feb - march 
 	monthdays == returnDaysInMonth();
 	if (day == monthdays)
 	{
@@ -183,6 +187,7 @@ Date Date::operator--()
 			else
 			{
 				monthnumb--;
+				//This makes sure it can go from march-feb
 				monthdays = returnDaysInMonth();
 				setDate(monthnumb, monthdays, year);
 			}
@@ -222,6 +227,7 @@ Date Date::operator--(int)
 			else
 			{
 				monthnumb--;
+				//This makes sure it can go from march-feb
 				monthdays = returnDaysInMonth();
 				setDate(monthnumb, monthdays, year);
 			}
@@ -249,53 +255,60 @@ int Date::operator -(Date& x)
 	
 	int count = 0;
 
-	cout << temp.day << " " << temp.monthnumb << " " << temp.year << endl;
-
-	while (temp.day != x.day || temp.monthnumb != x.monthnumb || temp.year != x.year)
+	//Temp is the second value in the equation, x is the first
+	
+	//This checks to make sure that temp is larger than x, so if it isnt it can output an error
+	if (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
 	{
-		if (temp.year >= 0)
+		//This loop will count how many days by checking to see if the temp date is larger and counting down day by day to see how many days it will take to make them equal
+		while (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
 		{
-			if (temp.day == 1)
+			if (temp.year >= 0)
 			{
-				if (temp.monthnumb == 1)
+				if (temp.day == 1)
 				{
-					temp.year--;
-					temp.setDate(12, temp.daysinmonth[12], temp.year);
-					
+					if (temp.monthnumb == 1)
+					{
+						temp.year--;
+						temp.setDate(12, temp.daysinmonth[12], temp.year);
+					}
+					else
+					{
+						temp.monthnumb--;
+						//This makes sure it can go from march-feb
+						temp.monthdays = temp.returnDaysInMonth();
+						temp.setDate(temp.monthnumb, temp.monthdays, temp.year);
+					}
 
-					cout << temp.daysinmonth[12] << " " << temp.year << endl;
 				}
 				else
 				{
-					temp.monthnumb--;
+					temp.day--;
+
 				}
+
+				count++;
 
 			}
 			else
 			{
-				temp.day--;
+				cout << "your year cannot go negative" << endl;
 
-				cout << count << endl;
-
+				exit(2);
 			}
-
-			count++;
-			
-		}
-		else
-		{
-			cout << "your year cannot go negative" << endl;
-
-			exit(2);
 		}
 	}
-	cout << temp.day << " " << temp.monthnumb << " " << temp.year << endl;
+	else
+	{
+		cout << "you cannot subtract a larger date from a smaller date" << endl;
+	}
 	
 	return count;
 }
 
 ostream& operator<<(ostream& stream, Date& dates)
 {
+	//This is used because the array starts from 0 instead of one, so i need to index it all back by a single value to output the correct name
 	dates.monthname = dates.month[dates.monthnumb - 1];
 	stream << dates.monthname << " " << right << setw(2) << setfill('0') << dates.day << setfill(' ') << ", " << setw(4) << setfill('0') << dates.year << left << endl;
 	return stream;
