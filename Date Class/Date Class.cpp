@@ -103,7 +103,7 @@ bool Date::leapYear()
 
 void Date::printNumber()
 {
-	cout << monthnumb << "/" << right << setw(2) << setfill('0') << day << "/" << setw(4) << year << setfill(' ') << left << endl;
+	cout << right << setw(2) << setfill('0') << monthnumb << "/" << day << "/" << setw(4) << year << setfill(' ') << left << endl;
 }
 
 void Date::printMDY()
