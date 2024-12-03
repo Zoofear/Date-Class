@@ -64,6 +64,48 @@ int main()
 
 	cout << x << endl;
 
+	//set the date to 2/29/2008 and increment and print
+
+	Test.setDate(2, 29, 2008);
+
+	Test++;
+
+	cout << Test << endl;
+
+	Test--;
+	
+	cout << Test << endl;
+
+	++Test;
+
+	cout << Test << endl;
+
+	--Test;
+
+	cout << Test << endl;
+
+	cout << endl;
+
+	//set the date to 12/31/2024 and increment and print
+
+	Test2.setDate(12, 31, 2024);
+
+	Test2++;
+	
+	cout << Test2 << endl;
+
+	Test2--; 
+	
+	cout << Test2 << endl;
+
+	++Test2;
+
+	cout << Test2 << endl;
+
+	--Test2;
+
+	cout << Test2 << endl;
+
 	
 
 }

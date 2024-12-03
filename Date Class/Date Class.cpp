@@ -307,7 +307,7 @@ ostream& operator<<(ostream& stream, Date& dates)
 {
 	//This is used because the array starts from 0 instead of one, so i need to index it all back by a single value to output the correct name
 	dates.monthname = dates.month[dates.monthnumb - 1];
-	stream << dates.monthname << " " << right << setw(2) << setfill('0') << dates.day << setfill(' ') << ", " << setw(4) << setfill('0') << dates.year << left << endl;
+	stream << dates.monthname << " " << right << setw(2) << setfill('0') << dates.day << setfill(' ') << ", " << setw(4) << setfill('0') << dates.year << left;
 	return stream;
 }
  
