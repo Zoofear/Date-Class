@@ -78,6 +78,10 @@ public:
 	bool leapYear();
 	//If leap year, return true, if not a leap year return false
 	
+	//Takes the date and decrements it down to 0 while counting
+	int dateValueCalc();
+	//returns the counted number as an int that represents the amount of days in a date
+
 	//Takes the day, month, and year and outputs it in this format: 12/25/2021
 	void printNumber();
 

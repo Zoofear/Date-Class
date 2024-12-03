@@ -42,11 +42,27 @@ int main()
 
 	cout << "error test 3" << endl;
 
-	Test.setDate(2, 29, 2000);
+	Test.setDate(2, 29, 2009);
 
 	cout << endl;
 
+	//set the first date object to 4/10/2014 and the second to 4/18/2014, subtract the dates, the answer should be 8
+
+	Test.setDate(4, 10, 2014);
+	Test2.setDate(4, 18, 2014);
+
+	int x = Test2 - Test;
 	
+	cout << x << endl;
+
+	//2/2/2006 - 11/10/2003 = 815
+
+	Test.setDate(2, 2, 2006);
+	Test2.setDate(11, 10, 2003);
+
+	x = Test2 - Test;
+
+	cout << x << endl;
 
 	
 

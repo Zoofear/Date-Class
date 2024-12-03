@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 #include "Date Class.h"
 
 using namespace std;
@@ -95,6 +96,51 @@ bool Date::leapYear()
 			return false;
 		}
 	}
+}
+
+int Date::dateValueCalc()
+{
+	Date temp(monthnumb, day, year);
+	int count = 0;
+
+	//This loop will count how many days by checking to see if the temp date is larger and counting down day by day to see how many days it will take to make them equal
+	while (temp.day > 1 || temp.monthnumb > 1 || temp.year > 0)
+	{
+		if (temp.year >= 0)
+		{
+			if (temp.day == 1)
+			{
+				if (temp.monthnumb == 1)
+				{
+					temp.year--;
+					temp.setDate(12, temp.daysinmonth[12], temp.year);
+				}
+				else
+				{
+					temp.monthnumb--;
+					//This makes sure it can go from march-feb
+					temp.monthdays = temp.returnDaysInMonth();
+					temp.setDate(temp.monthnumb, temp.monthdays, temp.year);
+				}
+
+			}
+			else
+			{
+				temp.day--;
+			}
+
+			count++;
+
+		}
+		else
+		{
+			cout << "your year cannot go negative" << endl;
+
+			exit(2);
+		}
+	}
+
+	return count;
 }
 
 void Date::printNumber()
@@ -248,58 +294,13 @@ Date Date::operator--(int)
 int Date::operator -(Date& x)
 {
 	Date temp(monthnumb, day, year);
-	
-	int count = 0;
+	int tempnum = temp.dateValueCalc();
+	int xnum = x.dateValueCalc();
 
-	//Temp is the second value in the equation, x is the first
-	
-	//This checks to make sure that temp is larger than x, so if it isnt it can output an error
-	if (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
-	{
-		//This loop will count how many days by checking to see if the temp date is larger and counting down day by day to see how many days it will take to make them equal
-		while (temp.day > x.day || temp.monthnumb > x.monthnumb || temp.year > x.year)
-		{
-			if (temp.year >= 0)
-			{
-				if (temp.day == 1)
-				{
-					if (temp.monthnumb == 1)
-					{
-						temp.year--;
-						temp.setDate(12, temp.daysinmonth[12], temp.year);
-					}
-					else
-					{
-						temp.monthnumb--;
-						//This makes sure it can go from march-feb
-						temp.monthdays = temp.returnDaysInMonth();
-						temp.setDate(temp.monthnumb, temp.monthdays, temp.year);
-					}
+	int answer = xnum - tempnum;
+	answer = abs(answer);
 
-				}
-				else
-				{
-					temp.day--;
-
-				}
-
-				count++;
-
-			}
-			else
-			{
-				cout << "your year cannot go negative" << endl;
-
-				exit(2);
-			}
-		}
-	}
-	else
-	{
-		cout << "you cannot subtract a larger date from a smaller date" << endl;
-	}
-	
-	return count;
+	return answer;
 }
 
 ostream& operator<<(ostream& stream, Date& dates)
