@@ -51,9 +51,7 @@ public:
 	//Returns the month variable as a string
 	string returnMonthStr()
 	{
-		int index = monthnumb - 1;
-
-		return month[index];
+		return monthname;
 	}
 
 	//Returns the year variable as an int
